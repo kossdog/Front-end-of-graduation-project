@@ -1,0 +1,44 @@
+{
+  "id": "2209257",
+  "name": "IBM_Project_Vue",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "11673428",
+      "name": "id",
+      "font_class": "id",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "15989509",
+      "name": "姓名",
+      "font_class": "xingming1",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "5168128",
+      "name": "姓名",
+      "font_class": "xingming",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "4766293",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    },
+    {
+      "icon_id": "4766695",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e7c9",
+      "unicode_decimal": 59337
+    }
+  ]
+}
