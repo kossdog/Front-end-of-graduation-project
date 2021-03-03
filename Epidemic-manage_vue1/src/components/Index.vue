@@ -17,7 +17,7 @@
             placeholder="搜一搜"
           ></el-input>
           <el-button @click="find">搜一搜</el-button>
-          <el-button @click="find_exit">返回首页</el-button>
+          <el-button @click="find_exit">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -30,19 +30,19 @@
       class="query-table"
     >
       <!--ID-->
-      <el-table-column prop="id" label="ID" width="130"> </el-table-column>
+      <el-table-column prop="id" label="ID" width="130" v-if="show"> </el-table-column>
       <!--名字-->
-      <el-table-column prop="name" label="姓名" width="130"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="160"> </el-table-column>
       <!--年龄-->
-      <el-table-column prop="age" label="年龄" width="130"> </el-table-column>
+      <el-table-column prop="age" label="年龄" width="160"> </el-table-column>
       <!--来源地-->
-      <el-table-column prop="comefrom" label="来源地" width="130">
+      <el-table-column prop="comefrom" label="来源地" width="160">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="time" label="确诊时间" width="130">
+      <el-table-column prop="time" label="确诊时间" width="160">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="level" label="症状" width="130"> </el-table-column>
+      <el-table-column prop="level" label="症状" width="160"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -299,6 +299,8 @@ import XLSX from "xlsx";
 export default {
   data() {
     return {
+      //不显示id
+      show:false,
       //删除患者信息方法参数
       dialogVisible: false,
       dialogFromVisible: false,
@@ -632,6 +634,9 @@ export default {
   top: 50px;
   left: 300px;
   width: 1000px;
+}
+.first-col{
+  display: none;
 }
 /deep/ .el-table thead,
 .el-table {
