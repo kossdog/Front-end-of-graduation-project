@@ -34,7 +34,7 @@ export default {
 <style lang="less" scoped>
 .home-container {
   height: 100%;
-  background: url(../assets/bg_1_meitu_1.png) no-repeat;
+  background: url(../assets/menglong.jpg) no-repeat;
   background-size: 100%;
 }
 

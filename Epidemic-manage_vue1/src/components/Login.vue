@@ -44,7 +44,6 @@
     </div>
     <div class="logo_buttom">
       ©All Rights Reserved
-      <img class="img_logo" src="../assets/logo_bjwd.png" alt="" />
     </div>
   </div>
 </template>
@@ -88,7 +87,7 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         //验证表单输入是否合法
-        if (!valid) return this.$message.error("请正确填写个人信息！");
+        if (!valid) return this.$message.error("请正确填写登录信息！");
         //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
         const { data: res } = await this.$http.post(
           "getUserModelByUserlogin",
@@ -122,7 +121,7 @@ export default {
 <style lang="less" scoped>
 .login_container {
   // background-color: #b8e5f8;
-  background-image: linear-gradient(rgb(150, 248, 248),#fff);
+  background-image: url(../assets/xuedi.jpg);
   height: 100%;
 }
 

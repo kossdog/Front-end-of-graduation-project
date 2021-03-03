@@ -205,20 +205,11 @@
         <el-form
           ref="formRef2"
           :model="form2"
-          label-width="70px"
+          label-width="80px"
           :rules="rules"
           class="demo-form"
           label-position="left"
         >
-          <!--ID-->
-          <el-form-item label="ID" class="in" prop="id">
-            <el-input
-              v-model="form2.id"
-              style="width: 270px"
-              placeholder="请输入患者ID"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
           <!--名字-->
           <el-form-item label="名字" class="in" prop="name">
             <el-input
@@ -227,13 +218,15 @@
               placeholder="请输入患者名字"
             ></el-input>
           </el-form-item>
-          <!--工资-->
-          <el-form-item label="工资" class="in" prop="salary">
-            <el-input
-              v-model="form2.salary"
+          <!--性别-->
+          <el-form-item label="性别" class="in" prop="sex">
+            <el-select
+              v-model="form2.sex"
               style="width: 270px"
-              placeholder="请输入患者工资"
-            ></el-input>
+              placeholder="请选择性别"
+              ><el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
           </el-form-item>
           <!--年龄-->
           <el-form-item label="年龄" class="in" prop="age">
@@ -242,6 +235,35 @@
               style="width: 270px"
               placeholder="请输入患者年龄"
             ></el-input>
+          </el-form-item>
+          <!--来源地-->
+          <el-form-item label="来源地" class="in" prop="comefrom">
+            <el-input
+              v-model="form2.comefrom"
+              style="width: 270px"
+              placeholder="请输入来源地"
+            ></el-input>
+          </el-form-item>
+          <!--确诊时间-->
+          <el-form-item label="确诊时间" class="in" prop="time">
+            <el-date-picker
+              type="date"
+              v-model="form2.time"
+              style="width: 270px"
+              placeholder="请输入确诊时间"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+          </el-form-item>
+          <!--病症-->
+          <el-form-item label="病症" class="in" prop="level">
+            <el-select
+              v-model="form2.level"
+              style="width: 270px"
+              placeholder="请选择症状"
+              ><el-option label="无症状" value="无症状"></el-option>
+              <el-option label="轻症" value="轻症"></el-option>
+              <el-option label="重症" value="重症"></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
 
@@ -325,14 +347,18 @@ export default {
       form2: {
         id: "",
         name: "",
-        salary: "",
+        sex:"",
         age: "",
+        comefrom: "",
+        time: "",
+        level: "",
       },
 
       //添加患者信息数据
       form: {
         id: "",
         name: "",
+        sex:"",
         age: "",
         comefrom: "",
         time: "",
@@ -527,7 +553,7 @@ export default {
 
     //导出全部患者信息方法
     onAdd_excel() {
-      this.$http.post("/export").then((res) => {
+      this.$http.get("/export").then((res) => {
         console.log(res.data);
       });
       window.location.href = "http://localhost:8080/export";
