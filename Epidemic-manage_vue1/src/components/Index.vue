@@ -13,10 +13,10 @@
         <el-form-item label="" class="in" prop="text">
           <el-input
             v-model="form_find.text"
-            style="width: 100px"
-            placeholder="搜一搜"
+            style="width: 200px"
+            placeholder="通过姓名搜索"
           ></el-input>
-          <el-button @click="find">搜一搜</el-button>
+          <el-button @click="find">查询</el-button>
           <el-button @click="find_exit">重置</el-button>
         </el-form-item>
       </el-form>
@@ -32,17 +32,19 @@
       <!--ID-->
       <el-table-column prop="id" label="ID" width="130" v-if="show"> </el-table-column>
       <!--名字-->
-      <el-table-column prop="name" label="姓名" width="160"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="130"> </el-table-column>
+      <!--性别-->
+      <el-table-column prop="sex" label="性别" width="130"> </el-table-column>
       <!--年龄-->
-      <el-table-column prop="age" label="年龄" width="160"> </el-table-column>
+      <el-table-column prop="age" label="年龄" width="130"> </el-table-column>
       <!--来源地-->
-      <el-table-column prop="comefrom" label="来源地" width="160">
+      <el-table-column prop="comefrom" label="来源地" width="130">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="time" label="确诊时间" width="160">
+      <el-table-column prop="time" label="确诊时间" width="130">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="level" label="症状" width="160"> </el-table-column>
+      <el-table-column prop="level" label="症状" width="130"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -108,15 +110,7 @@
       class="button_add"
       >导出全部患者信息</el-button
     >
-    <!-- 导出数据 -->
-    <el-button
-      type="info"
-      round
-      size="mini"
-      @click="dialog_excel_part = true"
-      class="button_add"
-      >导出本页患者信息</el-button
-    >
+
 
     <!--患者添加抽屉-->
     <el-dialog
@@ -142,6 +136,16 @@
               style="width: 270px"
               placeholder="请输入患者名字"
             ></el-input>
+          </el-form-item>
+          <!--性别-->
+          <el-form-item label="性别" class="in" prop="sex">
+            <el-select
+              v-model="form.sex"
+              style="width: 270px"
+              placeholder="请选择性别"
+              ><el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
           </el-form-item>
           <!--年龄-->
           <el-form-item label="年龄" class="in" prop="age">
@@ -274,28 +278,10 @@
         </div>
       </div>
     </el-dialog>
-
-    <!--导出本页数据弹窗-->
-    <el-dialog
-      title="导出本页患者信息到Excel"
-      :before-close="handleClose_excel_part"
-      :visible.sync="dialog_excel_part"
-      ref="drawer"
-      :show-close="false"
-    >
-      <div class="add-form">
-        <div class="demo-drawer__footer">
-          <el-button @click="cancelForm_excel_part">取 消</el-button>
-          <el-button type="primary" @click="onAdd_excel_part">导出</el-button>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import FileSaver from "file-saver";
-import XLSX from "xlsx";
 export default {
   data() {
     return {
@@ -384,7 +370,7 @@ export default {
           { pattern: /^[1-9]\d*$/, message: "请输入一个大于0的数字" },
         ],
         level: [{ required: true, message: "请选择症状", trigger: "blur" }],
-        text: [{ required: true, message: "搜索为空！", trigger: "blur" }],
+        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
       },
     };
   },
@@ -541,7 +527,7 @@ export default {
 
     //导出全部患者信息方法
     onAdd_excel() {
-      this.$http.get("/export").then((res) => {
+      this.$http.post("/export").then((res) => {
         console.log(res.data);
       });
       window.location.href = "http://localhost:8080/export";
@@ -560,39 +546,7 @@ export default {
       clearTimeout(this.timer);
       this.onePage();
     },
-    //导出本页患者信息方法
-    onAdd_excel_part() {
-      let name = "患者表";
-      // console.log(name)
-      /* generate workbook object from table */
-      //  .table要导出的是哪一个表格
-      let tableDom = document.querySelector(".query-table").cloneNode(true);
-      let trs = tableDom.getElementsByTagName("tr");
-      for (let tr of trs) {
-        tr.lastChild.remove();
-      }
-      trs[0].lastChild.remove();
-      console.log("tabledom...", tableDom);
-      var wb = XLSX.utils.table_to_book(tableDom);
-      console.log("wb...", wb);
-      /* get binary string as output */
-      var wbout = XLSX.write(wb, {
-        bookType: "xlsx",
-        bookSST: true,
-        type: "array",
-      });
-      this.cancelForm_excel_part();
-      try {
-        //  name+'.xlsx'表示导出的excel表格名字
-        FileSaver.saveAs(
-          new Blob([wbout], { type: "application/octet-stream" }),
-          name + ".xlsx"
-        );
-      } catch (e) {
-        if (typeof console !== "undefined") console.log(e, wbout);
-      }
-      return wbout;
-    },
+
 
     //首页方法
     onePage() {
