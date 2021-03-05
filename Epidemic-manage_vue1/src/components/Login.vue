@@ -95,9 +95,6 @@ export default {
         );
         //验证登录
 
-        console.log(res);
-        console.log();
-
         if (res.eroCode !== 200) return this.$message.error(res.mess);
         this.$message.success("登录成功>_<");
         //1.将登录成功之后的token，保存到客户端的 sessionStorage 中

@@ -1,8 +1,7 @@
 <template>
   <div class="register_container">
     <div class="register_box">
-      <!-- 头像区域 -->
-      <!-- 登录表单区域 -->
+      <!-- 注册表单区域 -->
       <el-form
         ref="registerFormRef"
         :model="registerForm"
@@ -234,27 +233,19 @@ export default {
 
 <style lang="less" scoped>
 .register_container {
-  background-image: linear-gradient(rgb(150, 248, 248), #fff);
+  background-image: url(../assets/xuedi.jpg);
   // background: url(../assets/login_bg.png);
   height: 100%;
 }
 
-.logo {
-  height: 100px;
-  width: 400px;
-  position: absolute;
-  left: 460px;
-  transform: translate(0, -80%);
-}
-
 .register_box {
   width: 450px;
-  height: 570px;
+  height: 650px;
   background-color: #fcfcfc;
   border-radius: 3px;
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 45%;
   transform: translate(-50%, -45%);
 
   .avatar_box {

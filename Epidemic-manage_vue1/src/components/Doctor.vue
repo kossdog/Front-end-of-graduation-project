@@ -1,26 +1,6 @@
 <template>
   <!-- 页面主体 -->
   <div class="page-index">
-    <!-- 查询 -->
-    <div class="find">
-      <el-form
-        ref="formFind"
-        :model="form_find"
-        :rules="rules"
-        class="demo-form"
-        label-position="left"
-      >
-        <el-form-item label="" class="in" prop="text">
-          <el-input
-            v-model="form_find.text"
-            style="width: 200px"
-            placeholder="搜索"
-          ></el-input>
-          <el-button @click="find">查询</el-button>
-          <el-button @click="find_exit">重置</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
     <!--展示主表格-->
     <el-table
       :data="tableData"
@@ -100,15 +80,6 @@
       class="button_add"
       >添加患者信息</el-button
     >
-    <!-- 导出数据 -->
-    <el-button
-      type="primary"
-      size="mini"
-      @click="dialog_excel = true"
-      class="button_add"
-      >导出全部患者信息</el-button
-    >
-
 
     <!--患者添加抽屉-->
     <el-dialog
@@ -272,39 +243,7 @@
       </div>
     </el-dialog>
 
-    <!--统计表格按钮-->
-    <div class="button_tj">
-      <el-button @click="dialogFun2" type="primary" size="mini"
-        >患者症状比例图</el-button
-      >
-    </div>
 
-    <!--统计展示表格对话框-->
-    <el-dialog :visible.sync="dialogFun" width="650px">
-      <div
-        id="myChart"
-        :style="{ width: '500px', height: '400px', margin: '0 auto' }"
-      ></div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogFun = false">取 消</el-button>
-      </span>
-    </el-dialog>
-
-    <!--导出全部数据弹窗-->
-    <el-dialog
-      title="导出全部患者信息到Excel"
-      :before-close="handleClose_excel"
-      :visible.sync="dialog_excel"
-      ref="drawer"
-      :show-close="false"
-    >
-      <div class="add-form">
-        <div class="demo-drawer__footer">
-          <el-button @click="cancelForm_excel">取 消</el-button>
-          <el-button type="primary" @click="onAdd_excel">导出</el-button>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -505,29 +444,7 @@ export default {
       //         else return this.$message.error('删除失败！');
       // })
     },
-    //搜索患者信息方法
-    find() {
-      console.log(this.form_find.text);
-      this.$refs.formFind.validate(async (valid) => {
-        //验证表单输入是否合法
-        if (!valid) return this.$message.error("搜索不能为空！");
-        //     //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
-        const { data: res } = await this.$http.get(
-          "/findEmp/" + this.form_find.text
-        );
-        console.log(res);
-        this.tableData = res;
-        //      if (!res) return this.$message.error('修改失败！');
-        // this.$message.success('修改成功>-<');
-        // this.getUsersList();
-        // this.cancelForm2();
-      });
-    },
-    //退出搜索，返回首页
-    find_exit() {
-      this.onePage();
-      this.$refs.formFind.resetFields();
-    },
+    
 
     //修改弹窗打开关闭方法
     handleClose2() {
@@ -541,36 +458,6 @@ export default {
       clearTimeout(this.timer);
       this.onePage();
     },
-
-    //导出全部弹窗开启关闭
-    handleClose_excel() {
-      if (this.loading_excel) {
-        return;
-      }
-    },
-    cancelForm_excel() {
-      this.loading_excel = false;
-      this.dialog_excel = false;
-      clearTimeout(this.timer);
-      this.onePage();
-    },
-
-    //导出全部患者信息方法
-    onAdd_excel() {
-      this.$http.get("/export").then((res) => {
-        console.log(res.data);
-      });
-      window.location.href = "http://localhost:8080/export";
-      this.cancelForm_excel();
-    },
-
-    cancelForm_excel_part() {
-      this.loading_excel_part = false;
-      this.dialog_excel_part = false;
-      clearTimeout(this.timer);
-      this.onePage();
-    },
-
 
     //首页方法
     onePage() {
@@ -595,72 +482,6 @@ export default {
 
     //   //  console.log(res.data);
     // },
-    dialogFun2() {
-      this.dialogFun = true;
-      setTimeout(() => {
-        this.drawLine2();
-      }, 500);
-    },
-    //统计图数据
-    drawLine2() {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
-      var low = 0;
-      var mid = 0;
-      var high = 0;
-      var count = 0;
-      var count1 = 0;
-      var count2 = 0;
-      for (var i = 0; i < this.tableData1.length; i++) {
-        if (this.tableData1[i].level == "无症状" ) {
-          count++;
-        } else if (this.tableData1[i].level == "轻症") {
-          count1++;
-        } else 
-         {
-          count2++;
-        } 
-      }
-      low = low + count;
-      mid = mid + count1;
-      high = high + count2;
-      myChart.setOption({
-        title: {
-          text: "病症分布",
-          left: "center",
-        },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
-        },
-        legend: {
-        orient: 'vertical',
-        left: 'left',
-    },
-
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            top: "10%",
-            radius: "75%",
-            center: ["50%", "50%"],
-            data: [
-              { value: low, name: "无症状" },
-              { value: mid, name: "轻症" },
-              { value: high, name: "重症" },
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
-      });
-    },
     
   },
 };
@@ -676,8 +497,8 @@ export default {
 //主表格
 .page-index {
   position: absolute;
-  top: 50px;
-  left: 300px;
+  top: 120px;
+  left: 320px;
   width: 1000px;
 }
 .first-col{

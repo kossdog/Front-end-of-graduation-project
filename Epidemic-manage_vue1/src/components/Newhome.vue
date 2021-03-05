@@ -23,15 +23,23 @@ export default {
   methods: {
     //退出功能，先清除 token，然后跳转到 login 页面
     logout() {
+      //清除token
       window.sessionStorage.clear();
       this.$message.success("退出成功>-<");
       this.$router.push("/login");
     },
+     handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
   },
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+
 .home-container {
   height: 100%;
   background: url(../assets/menglong.jpg) no-repeat;
@@ -39,7 +47,7 @@ export default {
 }
 
 .el-header {
-  margin-left: 8%;
+  margin-left: 20%;
   margin-right: 7.5%;
   display: flex;
   justify-content: space-between;
@@ -62,7 +70,10 @@ export default {
 .iconfont {
   margin-right: 10px;
 }
-
+/deep/ .el-main{
+  padding: 0;
+  width: 1300px;
+}
 .toggle-button {
   background-color: #4a5064;
   font-size: 10px;
