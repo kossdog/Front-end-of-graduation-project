@@ -10,21 +10,15 @@
       class="query-table"
     >
       <!--ID-->
-      <el-table-column prop="id" label="ID" width="130" v-if="show"> </el-table-column>
+      <el-table-column prop="id" label="ID" width="180" v-if="show"> </el-table-column>
       <!--名字-->
-      <el-table-column prop="name" label="姓名" width="130"> </el-table-column>
+      <el-table-column prop="docname" label="姓名" width="180"> </el-table-column>
       <!--性别-->
-      <el-table-column prop="sex" label="性别" width="130"> </el-table-column>
+      <el-table-column prop="docsex" label="性别" width="180"> </el-table-column>
       <!--年龄-->
-      <el-table-column prop="age" label="年龄" width="130"> </el-table-column>
-      <!--来源地-->
-      <el-table-column prop="comefrom" label="来源地" width="130">
-      </el-table-column>
-      <!--确诊时间-->
-      <el-table-column prop="time" label="确诊时间" width="130">
-      </el-table-column>
-      <!--确诊时间-->
-      <el-table-column prop="level" label="症状" width="130"> </el-table-column>
+      <el-table-column prop="docage" label="年龄" width="180"> </el-table-column>
+      <!--职阶-->
+      <el-table-column prop="doclevel" label="职位" width="180"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -60,6 +54,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 分页导航栏 -->
     <el-pagination
       class="pag"
@@ -99,17 +94,17 @@
           label-position="left"
         >
           <!--名字-->
-          <el-form-item label="名字" class="in" prop="name">
+          <el-form-item label="名字" class="in" prop="docname">
             <el-input
-              v-model="form.name"
+              v-model="form.docname"
               style="width: 270px"
               placeholder="请输入患者名字"
             ></el-input>
           </el-form-item>
           <!--性别-->
-          <el-form-item label="性别" class="in" prop="sex">
+          <el-form-item label="性别" class="in" prop="docsex">
             <el-select
-              v-model="form.sex"
+              v-model="form.docsex"
               style="width: 270px"
               placeholder="请选择性别"
               ><el-option label="男" value="男"></el-option>
@@ -117,35 +112,17 @@
             </el-select>
           </el-form-item>
           <!--年龄-->
-          <el-form-item label="年龄" class="in" prop="age">
+          <el-form-item label="年龄" class="in" prop="docage">
             <el-input
-              v-model="form.age"
+              v-model="form.docage"
               style="width: 270px"
               placeholder="请输入患者年龄"
             ></el-input>
           </el-form-item>
-          <!--来源地-->
-          <el-form-item label="来源地" class="in" prop="comefrom">
-            <el-input
-              v-model="form.comefrom"
-              style="width: 270px"
-              placeholder="请输入来源地"
-            ></el-input>
-          </el-form-item>
-          <!--确诊时间-->
-          <el-form-item label="确诊时间" class="in" prop="time">
-            <el-date-picker
-              type="date"
-              v-model="form.time"
-              style="width: 270px"
-              placeholder="请输入确诊时间"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-          </el-form-item>
           <!--病症-->
-          <el-form-item label="病症" class="in" prop="level">
+          <el-form-item label="病症" class="in" prop="doclevel">
             <el-select
-              v-model="form.level"
+              v-model="form.doclevel"
               style="width: 270px"
               placeholder="请选择症状"
               ><el-option label="无症状" value="无症状"></el-option>
@@ -161,90 +138,9 @@
         </div>
       </div>
     </el-dialog>
-
-    <!--患者修改抽屉-->
-    <el-dialog
-      title="修改患者信息"
-      :before-close="handleClose2"
-      :visible.sync="dialogEdit"
-      ref="drawer2"
-      :show-close="false"
-    >
-      <div class="add-form">
-        <el-form
-          ref="formRef2"
-          :model="form2"
-          label-width="80px"
-          :rules="rules"
-          class="demo-form"
-          label-position="left"
-        >
-          <!--名字-->
-          <el-form-item label="名字" class="in" prop="name">
-            <el-input
-              v-model="form2.name"
-              style="width: 270px"
-              placeholder="请输入患者名字"
-            ></el-input>
-          </el-form-item>
-          <!--性别-->
-          <el-form-item label="性别" class="in" prop="sex">
-            <el-select
-              v-model="form2.sex"
-              style="width: 270px"
-              placeholder="请选择性别"
-              ><el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
-          <!--年龄-->
-          <el-form-item label="年龄" class="in" prop="age">
-            <el-input
-              v-model="form2.age"
-              style="width: 270px"
-              placeholder="请输入患者年龄"
-            ></el-input>
-          </el-form-item>
-          <!--来源地-->
-          <el-form-item label="来源地" class="in" prop="comefrom">
-            <el-input
-              v-model="form2.comefrom"
-              style="width: 270px"
-              placeholder="请输入来源地"
-            ></el-input>
-          </el-form-item>
-          <!--确诊时间-->
-          <el-form-item label="确诊时间" class="in" prop="time">
-            <el-date-picker
-              type="date"
-              v-model="form2.time"
-              style="width: 270px"
-              placeholder="请输入确诊时间"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-          </el-form-item>
-          <!--病症-->
-          <el-form-item label="病症" class="in" prop="level">
-            <el-select
-              v-model="form2.level"
-              style="width: 270px"
-              placeholder="请选择症状"
-              ><el-option label="无症状" value="无症状"></el-option>
-              <el-option label="轻症" value="轻症"></el-option>
-              <el-option label="重症" value="重症"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-
-        <div class="demo-drawer__footer">
-          <el-button @click="cancelForm2">取 消</el-button>
-          <el-button type="primary" @click="onEdit">修改</el-button>
-        </div>
-      </div>
-    </el-dialog>
-
-
   </div>
+
+ 
 </template>
 
 <script>
@@ -266,14 +162,6 @@ export default {
       //删除患者信息弹窗参数
       dialogEdit: false,
       loading2: false,
-      //导出全部弹窗参数
-      dialog_excel: false,
-      loading_excel: false,
-      //导出本页弹窗参数
-      dialog_excel_part: false,
-      loading_excel_part: false,
-      //统计弹窗参数
-      dialogFun: false,
 
       //导航栏参数
       total: 8,
@@ -287,31 +175,25 @@ export default {
       },
 
       //修改患者信息数据
-      form2: {
-        id: "",
-        name: "",
-        sex:"",
-        age: "",
-        comefrom: "",
-        time: "",
-        level: "",
-      },
+      // form2: {
+      //   id: "",
+      //   name: "",
+      //   sex:"",
+      //   age: "",
+      //   comefrom: "",
+      //   time: "",
+      //   level: "",
+      // },
 
       //添加患者信息数据
       form: {
         id: "",
-        name: "",
-        sex:"",
-        age: "",
-        comefrom: "",
-        time: "",
-        level: "",
+        docname: "",
+        docsex:"",
+        docage: "",
+        doclevel: "",
       },
 
-      //搜索框数据
-      form_find: {
-        text: "",
-      },
 
       formLabelWidth: "80px",
       timer: null,
@@ -321,7 +203,7 @@ export default {
           { required: true, message: "请输入患者ID", trigger: "blur" },
           { pattern: /^[1-9]\d*$/, message: "请输入数字" },
         ],
-        name: [
+        docname: [
           { required: true, message: "请输入患者姓名", trigger: "blur" },
           {
             min: 1,
@@ -330,16 +212,12 @@ export default {
             trigger: "blur",
           },
         ],
-        comefrom: [
-          { required: true, message: "请输入来源地", trigger: "blur" },
-        ],
-        time: [{ required: true, message: "请选择确诊时间", trigger: "blur" }],
-        age: [
+        docage: [
           { required: true, message: "请输入患者年龄", trigger: "blur" },
           { pattern: /^[1-9]\d*$/, message: "请输入一个大于0的数字" },
         ],
-        level: [{ required: true, message: "请选择症状", trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
+        doclevel: [{ required: true, message: "请选择症状", trigger: "blur" }],
+        docsex: [{ required: true, message: "请选择性别", trigger: "blur" }],
       },
     };
   },
@@ -373,10 +251,10 @@ export default {
       });
       // console.log(current)
     },
-    //获取全部患者信息
+    //获取全部医生信息
     async getUsersList() {
-      this.$http.get("/getAllEmployee").then((res) => {
-        this.tableData1 = res.data;
+      this.$http.get("/getAllDoctor").then((res) => {
+        this.tableData = res.data;
         // console.log(this.tableData1)
       });
     },
