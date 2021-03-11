@@ -73,12 +73,12 @@
       size="mini"
       @click="dialog = true"
       class="button_add"
-      >添加患者信息</el-button
+      >添加医生信息</el-button
     >
 
-    <!--患者添加抽屉-->
+    <!--医生添加抽屉-->
     <el-dialog
-      title="添加患者信息"
+      title="添加医生信息"
       :before-close="handleClose"
       :visible.sync="dialog"
       ref="drawer"
@@ -98,7 +98,7 @@
             <el-input
               v-model="form.docname"
               style="width: 270px"
-              placeholder="请输入患者名字"
+              placeholder="请输入医生名字"
             ></el-input>
           </el-form-item>
           <!--性别-->
@@ -116,7 +116,7 @@
             <el-input
               v-model="form.docage"
               style="width: 270px"
-              placeholder="请输入患者年龄"
+              placeholder="请输入年龄"
             ></el-input>
           </el-form-item>
           <!--病症-->
@@ -124,10 +124,10 @@
             <el-select
               v-model="form.doclevel"
               style="width: 270px"
-              placeholder="请选择症状"
-              ><el-option label="无症状" value="无症状"></el-option>
-              <el-option label="轻症" value="轻症"></el-option>
-              <el-option label="重症" value="重症"></el-option>
+              placeholder="请选择职称"
+              ><el-option label="主任" value="主任"></el-option>
+              <el-option label="副主任" value="副主任"></el-option>
+              <el-option label="住院医师" value="住院医师"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -135,6 +135,69 @@
         <div class="demo-drawer__footer">
           <el-button @click="cancelForm">取 消</el-button>
           <el-button type="primary" @click="onAdd">添加</el-button>
+        </div>
+      </div>
+    </el-dialog>
+
+     <!--患者修改抽屉-->
+    <el-dialog
+      title="修改患者信息"
+      :before-close="handleClose2"
+      :visible.sync="dialogEdit"
+      ref="drawer2"
+      :show-close="false"
+    >
+      <div class="add-form">
+        <el-form
+          ref="formRef2"
+          :model="form2"
+          label-width="80px"
+          :rules="rules"
+          class="demo-form"
+          label-position="left"
+        >
+          <!--名字-->
+          <el-form-item label="名字" class="in" prop="docname">
+            <el-input
+              v-model="form2.docname"
+              style="width: 270px"
+              placeholder="请输入医生名字"
+            ></el-input>
+          </el-form-item>
+          <!--性别-->
+          <el-form-item label="性别" class="in" prop="docsex">
+            <el-select
+              v-model="form2.docsex"
+              style="width: 270px"
+              placeholder="请选择性别"
+              ><el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
+          </el-form-item>
+          <!--年龄-->
+          <el-form-item label="年龄" class="in" prop="docage">
+            <el-input
+              v-model="form2.docage"
+              style="width: 270px"
+              placeholder="请输入患者年龄"
+            ></el-input>
+          </el-form-item>
+          <!--职称-->
+          <el-form-item label="职称" class="in" prop="doclevel">
+            <el-select
+              v-model="form2.doclevel"
+              style="width: 270px"
+              placeholder="请选择职称"
+              ><el-option label="主任" value="主任"></el-option>
+              <el-option label="副主任" value="副主任"></el-option>
+              <el-option label="住院医师" value="住院医师"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+
+        <div class="demo-drawer__footer">
+          <el-button @click="cancelForm2">取 消</el-button>
+          <el-button type="primary" @click="onEdit">修改</el-button>
         </div>
       </div>
     </el-dialog>
@@ -149,17 +212,17 @@ export default {
     return {
       //不显示id
       show:false,
-      //删除患者信息方法参数
+      //删除医生信息方法参数
       dialogVisible: false,
       dialogFromVisible: false,
 
       //主展示表格数据
       tableData: [],
 
-      //添加患者信息弹窗参数
+      //添医生信息弹窗参数
       dialog: false,
       loading: false,
-      //删除患者信息弹窗参数
+      //删除医生信息弹窗参数
       dialogEdit: false,
       loading2: false,
 
@@ -174,18 +237,16 @@ export default {
         size: 8,
       },
 
-      //修改患者信息数据
-      // form2: {
-      //   id: "",
-      //   name: "",
-      //   sex:"",
-      //   age: "",
-      //   comefrom: "",
-      //   time: "",
-      //   level: "",
-      // },
+      //修改医生信息数据
+      form2: {
+        id: "",
+        docname: "",
+        docsex:"",
+        docage: "",
+        doclevel: "",
+      },
 
-      //添加患者信息数据
+      //添加医生信息数据
       form: {
         id: "",
         docname: "",
@@ -200,11 +261,11 @@ export default {
 
       rules: {
         id: [
-          { required: true, message: "请输入患者ID", trigger: "blur" },
+          { required: true, message: "请输入医生ID", trigger: "blur" },
           { pattern: /^[1-9]\d*$/, message: "请输入数字" },
         ],
         docname: [
-          { required: true, message: "请输入患者姓名", trigger: "blur" },
+          { required: true, message: "请输入医生姓名", trigger: "blur" },
           {
             min: 1,
             max: 30,
@@ -213,7 +274,7 @@ export default {
           },
         ],
         docage: [
-          { required: true, message: "请输入患者年龄", trigger: "blur" },
+          { required: true, message: "请输入医生年龄", trigger: "blur" },
           { pattern: /^[1-9]\d*$/, message: "请输入一个大于0的数字" },
         ],
         doclevel: [{ required: true, message: "请选择症状", trigger: "blur" }],
@@ -223,18 +284,18 @@ export default {
   },
 
   created() {
-    this.getUsersList();
+    this.getDoctorsList();
     this.onePage();
   },
 
   methods: {
-    //修改患者信息
+    //修改医生信息
     handleEdit(index, row) {
       // console.log(index, row);
       this.form2 = row;
       // console.log(this.form2.id);
     },
-    //删除患者信息
+    //删除医生信息
     handleDelete(index, row) {
       // console.log(index, row);
       console.log(row.id);
@@ -243,7 +304,7 @@ export default {
     //分页方法
     handleCurrentPage(current) {
       this.form3.page = current;
-      this.$http.post("/getEmpByPage", this.form3).then((res) => {
+      this.$http.post("/getDocByPage", this.form3).then((res) => {
         console.log(res.data);
         this.tableData = res.data.rows;
 
@@ -252,13 +313,13 @@ export default {
       // console.log(current)
     },
     //获取全部医生信息
-    async getUsersList() {
+    async getDoctorsList() {
       this.$http.get("/getAllDoctor").then((res) => {
         this.tableData = res.data;
         // console.log(this.tableData1)
       });
     },
-    //患者信息删除方法
+    //医生信息删除方法
     del() {
       console.log(this.id);
       this.$http.delete("/delEmpById/" + this.id).then((ret) => {
@@ -280,7 +341,7 @@ export default {
       this.$refs.formRef.resetFields();
       clearTimeout(this.timer);
     },
-    //添加患者信息方法
+    //添加医生信息方法
     onAdd() {
       // let url="/addEmploy";
       // this.$http.post(url,this.form).then(res=>{
@@ -290,7 +351,7 @@ export default {
       // }).catch(err=>{console.log("error...",err); this.$message.error('添加失败！')});
       this.$refs.formRef.validate(async (valid) => {
         if (!valid) return this.$message.error("请正确填写！");
-        const { data: res } = await this.$http.post("/addEmploy", this.form);
+        const { data: res } = await this.$http.post("/addDoctor", this.form);
         if (!res) return this.$message.error("添加失败！");
         this.$message.success("添加成功>-<");
         this.onePage();
@@ -299,14 +360,14 @@ export default {
         this.$refs.formRef.resetFields();
       });
     },
-    //患者信息修改方法
+    //医生信息修改方法
     onEdit() {
       console.log(this.form2);
       this.$refs.formRef2.validate(async (valid) => {
         //验证表单输入是否合法
         if (!valid) return this.$message.error("请正确填写信息!");
         //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
-        const { data: res } = await this.$http.post("/updateEmp", this.form2);
+        const { data: res } = await this.$http.post("/updateDoc", this.form2);
         if (!res) return this.$message.error("修改失败！");
         this.$message.success("修改成功>-<");
         this.onePage();
@@ -341,7 +402,7 @@ export default {
     onePage() {
       this.form.page = 1;
       this.$http
-        .post("/getEmpByPage", {
+        .post("/getDocByPage", {
           page: 1,
           size: 8,
         })

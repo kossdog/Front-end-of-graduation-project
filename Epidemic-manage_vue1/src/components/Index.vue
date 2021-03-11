@@ -80,6 +80,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 分页导航栏 -->
     <el-pagination
       class="pag"
@@ -320,7 +321,8 @@ export default {
 
       //主展示表格数据
       tableData: [],
-
+      //医生的数据
+      tableDataDoc:[],
       //添加患者信息弹窗参数
       dialog: false,
       loading: false,
@@ -408,6 +410,7 @@ export default {
   created() {
     this.getUsersList();
     this.onePage();
+    this.getDoctorsList();
   },
 
   methods: {
@@ -437,8 +440,15 @@ export default {
     //获取全部患者信息
     async getUsersList() {
       this.$http.get("/getAllEmployee").then((res) => {
-        this.tableData1 = res.data;
-        // console.log(this.tableData1)
+        this.tableData = res.data;
+        //  console.log(this.tableData)
+      });
+    },
+    // //获取全部医生信息
+    async getDoctorsList() {
+      this.$http.get("/getAllDoctor").then((res) => {
+        this.tableDataDoc = res.data;
+        console.log(this.tableDataDoc)
       });
     },
     //患者信息删除方法
@@ -613,10 +623,10 @@ export default {
       var count = 0;
       var count1 = 0;
       var count2 = 0;
-      for (var i = 0; i < this.tableData1.length; i++) {
-        if (this.tableData1[i].level == "无症状" ) {
+      for (var i = 0; i < this.tableData.length; i++) {
+        if (this.tableData[i].level == "无症状" ) {
           count++;
-        } else if (this.tableData1[i].level == "轻症") {
+        } else if (this.tableData[i].level == "轻症") {
           count1++;
         } else 
          {
