@@ -30,21 +30,23 @@
       class="query-table"
     >
       <!--ID-->
-      <el-table-column prop="id" label="ID" width="130" v-if="show"> </el-table-column>
+      <el-table-column prop="id" label="ID" width="100" v-if="show"> </el-table-column>
       <!--名字-->
-      <el-table-column prop="name" label="姓名" width="130"> </el-table-column>
+      <el-table-column prop="name" label="姓名" width="110"> </el-table-column>
       <!--性别-->
-      <el-table-column prop="sex" label="性别" width="130"> </el-table-column>
+      <el-table-column prop="sex" label="性别" width="90"> </el-table-column>
       <!--年龄-->
-      <el-table-column prop="age" label="年龄" width="130"> </el-table-column>
+      <el-table-column prop="age" label="年龄" width="90"> </el-table-column>
       <!--来源地-->
-      <el-table-column prop="comefrom" label="来源地" width="130">
+      <el-table-column prop="comefrom" label="来源地" width="160">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="time" label="确诊时间" width="130">
+      <el-table-column prop="time" label="确诊时间" width="120">
       </el-table-column>
-      <!--确诊时间-->
-      <el-table-column prop="level" label="症状" width="130"> </el-table-column>
+      <!--症状-->
+      <el-table-column prop="level" label="症状" width="100"> </el-table-column>
+      <!--主治医生-->
+      <el-table-column prop="doctor" label="主治医生" width="140"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -183,6 +185,19 @@
               <el-option label="重症" value="重症"></el-option>
             </el-select>
           </el-form-item>
+          <!--主治医生-->
+          <el-form-item label="主治医生" class="in" prop="doctor">
+            <el-select
+              v-model="form.doctor"
+              style="width: 270px"
+              placeholder="请选择主治医生"
+              ><el-option v-for="item in tableDataDoc"
+                :key="item.id"
+                :label="item.docname"
+                :value="item.docname"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
 
         <div class="demo-drawer__footer">
@@ -262,6 +277,19 @@
               ><el-option label="无症状" value="无症状"></el-option>
               <el-option label="轻症" value="轻症"></el-option>
               <el-option label="重症" value="重症"></el-option>
+            </el-select>
+          </el-form-item>
+          <!--主治医生-->
+          <el-form-item label="主治医生" class="in" prop="doctor">
+            <el-select
+              v-model="form2.doctor"
+              style="width: 270px"
+              placeholder="请选择主治医生"
+              ><el-option v-for="item in tableDataDoc"
+                :key="item.id"
+                :label="item.docname"
+                :value="item.docname"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -358,6 +386,7 @@ export default {
         comefrom: "",
         time: "",
         level: "",
+        doctor: ""
       },
 
       //添加患者信息数据
@@ -369,6 +398,7 @@ export default {
         comefrom: "",
         time: "",
         level: "",
+        doctor:""
       },
 
       //搜索框数据
@@ -380,16 +410,12 @@ export default {
       timer: null,
 
       rules: {
-        id: [
-          { required: true, message: "请输入患者ID", trigger: "blur" },
-          { pattern: /^[1-9]\d*$/, message: "请输入数字" },
-        ],
         name: [
           { required: true, message: "请输入患者姓名", trigger: "blur" },
           {
             min: 1,
-            max: 30,
-            message: "长度在 1 到 30 个字符",
+            max: 10,
+            message: "长度在 1 到 10 个字符",
             trigger: "blur",
           },
         ],
@@ -403,6 +429,7 @@ export default {
         ],
         level: [{ required: true, message: "请选择症状", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
+        doctor: [{ required: true, message: "请选择主治医生", trigger: "blur" }],
       },
     };
   },
@@ -691,9 +718,6 @@ export default {
   top: 50px;
   left: 300px;
   width: 1000px;
-}
-.first-col{
-  display: none;
 }
 /deep/ .el-table thead,
 .el-table {

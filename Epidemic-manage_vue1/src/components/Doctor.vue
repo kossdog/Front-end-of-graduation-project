@@ -260,16 +260,12 @@ export default {
       timer: null,
 
       rules: {
-        id: [
-          { required: true, message: "请输入医生ID", trigger: "blur" },
-          { pattern: /^[1-9]\d*$/, message: "请输入数字" },
-        ],
         docname: [
           { required: true, message: "请输入医生姓名", trigger: "blur" },
           {
             min: 1,
-            max: 30,
-            message: "长度在 1 到 30 个字符",
+            max: 10,
+            message: "长度在 1 到 10 个字符",
             trigger: "blur",
           },
         ],
@@ -322,9 +318,9 @@ export default {
     //医生信息删除方法
     del() {
       console.log(this.id);
-      this.$http.delete("/delEmpById/" + this.id).then((ret) => {
-        console.log(ret.data);
-        if (ret.data) this.onePage() + this.$message.success("删除成功！");
+      this.$http.delete("/delDocById/" + this.id).then((res) => {
+        console.log(res.data);
+        if (res.data) this.onePage() + this.$message.success("删除成功！");
         else return this.$message.error("删除失败！");
       });
     },
@@ -343,12 +339,6 @@ export default {
     },
     //添加医生信息方法
     onAdd() {
-      // let url="/addEmploy";
-      // this.$http.post(url,this.form).then(res=>{
-      //   console.log("response...",res)
-      //   this.$message.success("添加成功>-<")
-
-      // }).catch(err=>{console.log("error...",err); this.$message.error('添加失败！')});
       this.$refs.formRef.validate(async (valid) => {
         if (!valid) return this.$message.error("请正确填写！");
         const { data: res } = await this.$http.post("/addDoctor", this.form);
@@ -373,15 +363,6 @@ export default {
         this.onePage();
         this.cancelForm2();
       });
-      // this.$http.get('/updateEmp',{
-      //   params:  {
-      //     id:this.id
-      //   }
-      // }).then(ret=>{
-      //     console.log(ret.data)
-      //     if(ret.data) return this.$router.push("/home");
-      //         else return this.$message.error('删除失败！');
-      // })
     },
     
 
@@ -427,12 +408,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// 搜索框
-.find {
-  width: 500px;
-  margin-top: 22px;
-  margin-left: 688px;
-}
 //主表格
 .page-index {
   position: absolute;
@@ -440,9 +415,7 @@ export default {
   left: 320px;
   width: 1000px;
 }
-.first-col{
-  display: none;
-}
+
 /deep/ .el-table thead,
 .el-table {
   color: black;
