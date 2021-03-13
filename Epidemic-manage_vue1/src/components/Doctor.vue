@@ -69,11 +69,10 @@
 
     <!--添加信息-->
     <el-button
-      type="primary"
-      size="mini"
+      type="success"
       @click="dialog = true"
       class="button_add"
-      >添加医生信息</el-button
+      >新增</el-button
     >
 
     <!--医生添加抽屉-->
@@ -455,7 +454,8 @@ export default {
 }
 
 .button_add {
-  margin-top: 25px;
+  position: absolute;
+  right: 5%;
 }
 
 .button_tj {

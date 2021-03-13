@@ -16,8 +16,8 @@
             style="width: 200px"
             placeholder="搜索"
           ></el-input>
-          <el-button @click="find">查询</el-button>
-          <el-button @click="find_exit">重置</el-button>
+          <el-button @click="find" type="primary" >查询</el-button>
+          <el-button @click="find_exit" type="warning">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -97,19 +97,17 @@
 
     <!--添加信息-->
     <el-button
-      type="primary"
-      size="mini"
+      type="success"
       @click="dialog = true"
       class="button_add"
-      >添加患者信息</el-button
+      >新增</el-button
     >
     <!-- 导出数据 -->
     <el-button
-      type="primary"
-      size="mini"
       @click="dialog_excel = true"
-      class="button_add"
-      >导出全部患者信息</el-button
+      class="button_out"
+      icon="el-icon-upload2"
+      >导出</el-button
     >
 
 
@@ -303,8 +301,8 @@
 
     <!--统计表格按钮-->
     <div class="button_tj">
-      <el-button @click="dialogFun2" type="primary" size="mini"
-        >患者症状比例图</el-button
+      <el-button @click="dialogFun2" type="primary"
+        >症状统计饼图</el-button
       >
     </div>
 
@@ -710,7 +708,7 @@ export default {
 .find {
   width: 500px;
   margin-top: 22px;
-  margin-left: 688px;
+
 }
 //主表格
 .page-index {
@@ -758,14 +756,19 @@ export default {
 }
 
 .button_add {
-  margin-top: 25px;
+  position: absolute;
+  left: 36%;
+  top: 22px;
 }
-
+.button_out{
+  position: absolute;
+  right: 13%;
+  top: 22px;
+}
 .button_tj {
   position: absolute;
-  width: 500px;
-  left: 75%;
-  bottom: 1%;
+  left: 88%;
+  top: 22px;
 }
 
 .add-form {
@@ -782,7 +785,7 @@ export default {
   margin-right: 0px;
 
   .button {
-    padding-right: 0px;
+    padding-right: 5px;
   }
 }
 </style>

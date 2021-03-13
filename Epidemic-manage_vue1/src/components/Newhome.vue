@@ -12,7 +12,7 @@
       <el-aside width="200px">
         <el-menu
          :uniqueOpened="true"
-      default-active="2"
+      default-active="1"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -26,6 +26,10 @@
       <el-menu-item index="2" @click="openDoctor">
         <i class="el-icon-menu"></i>
         <span>医生信息</span>
+      </el-menu-item>
+      <el-menu-item index="3" @click="openInpa">
+        <i class="el-icon-menu"></i>
+        <span>病房信息</span>
       </el-menu-item>
         </el-menu>
       </el-aside>
@@ -58,6 +62,9 @@ export default {
       },
       openDoctor(){
         this.$router.push("/doctor");
+      },
+      openInpa(){
+        this.$router.push("/inpa");
       }
   },
 };

@@ -6,6 +6,7 @@ import Res from "../components/Register.vue"
 import Page404 from "../components/404.vue"
 import Newhome from "../components/Newhome.vue"
 import Doctor from "../components/Doctor.vue"
+import Inpa from "../components/inpatientWard.vue"
 
 
 Vue.use(VueRouter);
@@ -17,7 +18,9 @@ const routes = [
   //访问 Newhome 重定向到 index  
   {path: '/new', component: Newhome, 
   redirect: '/index',
-  children: [{path: '/index', component:Index },{path: '/doctor' , component: Doctor}]},
+  children: [{path: '/index', component:Index },
+  {path: '/doctor' , component: Doctor},
+  {path:'/inpa', component: Inpa}]},
   
   //网页链接不存在 跳到 404
   { path: '*', component: Page404 },
