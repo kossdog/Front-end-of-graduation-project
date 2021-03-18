@@ -32,23 +32,37 @@
       <!--ID-->
       <el-table-column prop="id" label="ID" width="100" v-if="show"> </el-table-column>
       <!--名字-->
-      <el-table-column prop="name" label="姓名" width="110"> </el-table-column>
+      <el-table-column label="姓名" width="120">
+        <template #default="scope">
+        <el-popover effect="light" trigger="hover" placement="top">
+          <template #default>
+            <p prop="name">姓名: {{ scope.row.name }}</p>
+            <p prop="room">病房: {{ scope.row.room }}</p>
+          </template>
+          <template #reference>
+            <div class="name-wrapper">
+              <el-tag size="medium" prop="name">{{ scope.row.name }}</el-tag>
+            </div>
+          </template>
+        </el-popover>
+      </template>
+         </el-table-column>
       <!--性别-->
-      <el-table-column prop="sex" label="性别" width="90"> </el-table-column>
+      <el-table-column prop="sex" label="性别" width="100"> </el-table-column>
       <!--年龄-->
-      <el-table-column prop="age" label="年龄" width="90"> </el-table-column>
+      <el-table-column prop="age" label="年龄" width="100"> </el-table-column>
       <!--来源地-->
-      <el-table-column prop="comefrom" label="来源地" width="160">
+      <el-table-column prop="comefrom" label="来源地" width="150">
       </el-table-column>
       <!--确诊时间-->
-      <el-table-column prop="time" label="确诊时间" width="120">
+      <el-table-column prop="time" label="确诊时间" width="110">
       </el-table-column>
       <!--症状-->
-      <el-table-column prop="level" label="症状" width="100"> </el-table-column>
+      <el-table-column prop="level" label="症状" width="110"> </el-table-column>
       <!--主治医生-->
-      <el-table-column prop="doctor" label="主治医生" width="140"> </el-table-column>
+      <el-table-column prop="doctor" label="主治医生" width="110"> </el-table-column>
       <el-table-column label="操作">
-        <template slot-scope="scope">
+        <template slot-scope="scope" >
           <el-button
             size="mini"
             type="danger"
@@ -127,6 +141,7 @@
           :rules="rules"
           class="demo-form"
           label-position="left"
+          size="mini"
         >
           <!--名字-->
           <el-form-item label="名字" class="in" prop="name">
@@ -189,10 +204,24 @@
               v-model="form.doctor"
               style="width: 270px"
               placeholder="请选择主治医生"
+              @click="only"
               ><el-option v-for="item in tableDataDoc"
                 :key="item.id"
                 :label="item.docname"
                 :value="item.docname"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <!--病房-->
+          <el-form-item label="病房" class="in" prop="room">
+            <el-select
+              v-model="form.room"
+              style="width: 270px"
+              placeholder="请选择病房"
+              ><el-option v-for="item in tableDataRoom"
+                :key="item.id"
+                :label="item.num"
+                :value="item.num"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -221,6 +250,7 @@
           :rules="rules"
           class="demo-form"
           label-position="left"
+          size="mini"
         >
           <!--名字-->
           <el-form-item label="名字" class="in" prop="name">
@@ -290,6 +320,19 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <!--病房-->
+          <el-form-item label="病房" class="in" prop="room">
+            <el-select
+              v-model="form2.room"
+              style="width: 270px"
+              placeholder="请选择病房"
+              ><el-option v-for="item in tableDataRoom"
+                :key="item.id"
+                :label="item.num"
+                :value="item.num"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
 
         <div class="demo-drawer__footer">
@@ -349,6 +392,8 @@ export default {
       tableData: [],
       //医生的数据
       tableDataDoc:[],
+      //病房数据
+      tableDataRoom:[],
       //添加患者信息弹窗参数
       dialog: false,
       loading: false,
@@ -384,7 +429,8 @@ export default {
         comefrom: "",
         time: "",
         level: "",
-        doctor: ""
+        doctor: "",
+        room:""
       },
 
       //添加患者信息数据
@@ -396,7 +442,8 @@ export default {
         comefrom: "",
         time: "",
         level: "",
-        doctor:""
+        doctor:"",
+        room:""
       },
 
       //搜索框数据
@@ -428,6 +475,7 @@ export default {
         level: [{ required: true, message: "请选择症状", trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "blur" }],
         doctor: [{ required: true, message: "请选择主治医生", trigger: "blur" }],
+        room: [{ required: true, message: "请选择病房", trigger: "blur" }],
       },
     };
   },
@@ -436,9 +484,14 @@ export default {
     this.getUsersList();
     this.onePage();
     this.getDoctorsList();
+    this.getRoomsList();
   },
 
   methods: {
+    //
+    only(){
+      console.log(this.form.doctor);
+    },
     //修改患者信息
     handleEdit(index, row) {
       // console.log(index, row);
@@ -473,7 +526,13 @@ export default {
     async getDoctorsList() {
       this.$http.get("/getAllDoctor").then((res) => {
         this.tableDataDoc = res.data;
-        console.log(this.tableDataDoc)
+      });
+    },
+    // //获取全部病房信息
+    async getRoomsList() {
+      this.$http.get("/getAllRoom").then((res) => {
+        this.tableDataRoom = res.data;
+        console.log(this.tableDataRoom)
       });
     },
     //患者信息删除方法
