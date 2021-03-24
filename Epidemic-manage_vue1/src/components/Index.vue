@@ -488,10 +488,7 @@ export default {
   },
 
   methods: {
-    //
-    only(){
-      console.log(this.form.doctor);
-    },
+    
     //修改患者信息
     handleEdit(index, row) {
       // console.log(index, row);
@@ -510,7 +507,6 @@ export default {
       this.$http.post("/getEmpByPage", this.form3).then((res) => {
         console.log(res.data);
         this.tableData = res.data.rows;
-
         // console.log(res.page)
       });
       // console.log(current)
@@ -528,18 +524,16 @@ export default {
         this.tableDataDoc = res.data;
       });
     },
-    // //获取全部病房信息
+    // //获取闲置病房
     async getRoomsList() {
-      this.$http.get("/getAllRoom").then((res) => {
+      this.$http.get("/getRoomState").then((res) => {
         this.tableDataRoom = res.data;
         console.log(this.tableDataRoom)
       });
     },
     //患者信息删除方法
     del() {
-      console.log(this.id);
       this.$http.delete("/delEmpById/" + this.id).then((ret) => {
-        console.log(ret.data);
         if (ret.data) this.onePage() + this.$message.success("删除成功！");
         else return this.$message.error("删除失败！");
       });

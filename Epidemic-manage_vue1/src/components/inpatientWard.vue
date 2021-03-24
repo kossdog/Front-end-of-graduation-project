@@ -6,7 +6,7 @@
       :data="tableData"
       height="500"
       :header-cell-style="{ color: '#000' }"
-      style="width: 100%"
+      style="width: 800px"
       class="query-table"
     >
       <!--ID-->
@@ -101,19 +101,23 @@
           </el-form-item>
           <!--病房类型-->
           <el-form-item label="病房类型" class="in" prop="type">
-            <el-input
+            <el-select
               v-model="form.type"
               style="width: 270px"
-              placeholder="请输入病房类型"
-            ></el-input>
+              placeholder="请选择病房类型"
+              ><el-option label="普通病房" value="普通病房"></el-option>
+              <el-option label="重症病房" value="重症病房"></el-option>
+            </el-select>
           </el-form-item>
           <!--病房状态-->
           <el-form-item label="病房状态" class="in" prop="state">
-            <el-input
+            <el-select
               v-model="form.state"
               style="width: 270px"
-              placeholder="请输入病房状态"
-            ></el-input>
+              placeholder="请选择病房状态"
+              ><el-option label="闲置" value="闲置"></el-option>
+              <el-option label="使用中" value="使用中"></el-option>
+            </el-select>
           </el-form-item>
 
         </el-form>
@@ -148,23 +152,29 @@
               v-model="form2.num"
               style="width: 270px"
               placeholder="请输入病房号码"
+              disabled
             ></el-input>
           </el-form-item>
           <!--病房类型-->
           <el-form-item label="病房类型" class="in" prop="type">
-            <el-input
+            <el-select
               v-model="form2.type"
               style="width: 270px"
-              placeholder="请输入病房类型"
-            ></el-input>
+              placeholder="请选择病房类型"
+              disabled
+              ><el-option label="普通病房" value="普通病房"></el-option>
+              <el-option label="重症病房" value="重症病房"></el-option>
+            </el-select>
           </el-form-item>
           <!--病房状态-->
           <el-form-item label="病房状态" class="in" prop="state">
-            <el-input
+            <el-select
               v-model="form2.state"
               style="width: 270px"
-              placeholder="请输入病房状态"
-            ></el-input>
+              placeholder="请选择病房状态"
+              ><el-option label="闲置" value="闲置"></el-option>
+              <el-option label="使用中" value="使用中"></el-option>
+            </el-select>
           </el-form-item>
         
         </el-form>
@@ -375,7 +385,10 @@ export default {
   left: 320px;
   width: 1000px;
 }
-
+.query-table{
+  position: relative;
+  left: 150px;
+}
 /deep/ .el-table thead,
 .el-table {
   color: black;
