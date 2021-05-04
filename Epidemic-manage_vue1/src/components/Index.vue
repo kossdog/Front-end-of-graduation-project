@@ -204,7 +204,6 @@
               v-model="form.doctor"
               style="width: 270px"
               placeholder="请选择主治医生"
-              @click="only"
               ><el-option v-for="item in tableDataDoc"
                 :key="item.id"
                 :label="item.docname"
@@ -218,7 +217,7 @@
               v-model="form.room"
               style="width: 270px"
               placeholder="请选择病房"
-              ><el-option v-for="item in tableDataRoom"
+              ><el-option v-for="item in tableRoomState"
                 :key="item.id"
                 :label="item.num"
                 :value="item.num"
@@ -326,7 +325,7 @@
               v-model="form2.room"
               style="width: 270px"
               placeholder="请选择病房"
-              ><el-option v-for="item in tableDataRoom"
+              ><el-option v-for="item in tableRoomState"
                 :key="item.id"
                 :label="item.num"
                 :value="item.num"
@@ -394,6 +393,8 @@ export default {
       tableDataDoc:[],
       //病房数据
       tableDataRoom:[],
+      //闲置
+      tableRoomState:[],
       //添加患者信息弹窗参数
       dialog: false,
       loading: false,
@@ -485,6 +486,7 @@ export default {
     this.onePage();
     this.getDoctorsList();
     this.getRoomsList();
+    this.getRoomState();
   },
 
   methods: {
@@ -524,11 +526,16 @@ export default {
         this.tableDataDoc = res.data;
       });
     },
-    // //获取闲置病房
+    // //获取病房
     async getRoomsList() {
-      this.$http.get("/getRoomState").then((res) => {
+      this.$http.get("/getAllRoom").then((res) => {
         this.tableDataRoom = res.data;
-        console.log(this.tableDataRoom)
+      });
+    },
+    // //获取闲置病房
+    async getRoomState() {
+      this.$http.get("/getRoomState").then((res) => {
+        this.tableRoomState = res.data;
       });
     },
     //患者信息删除方法
@@ -572,7 +579,6 @@ export default {
     },
     //患者信息修改方法
     onEdit() {
-      console.log(this.form2);
       this.$refs.formRef2.validate(async (valid) => {
         //验证表单输入是否合法
         if (!valid) return this.$message.error("请正确填写信息!");
@@ -595,7 +601,6 @@ export default {
     },
     //搜索患者信息方法
     find() {
-      console.log(this.form_find.text);
       this.$refs.formFind.validate(async (valid) => {
         //验证表单输入是否合法
         if (!valid) return this.$message.error("搜索不能为空！");

@@ -1,6 +1,26 @@
 <template>
   <!-- 页面主体 -->
   <div class="page-index">
+    <!-- 查询 -->
+    <div class="find">
+      <el-form
+        ref="formFind"
+        :model="form_find"
+        :rules="rules"
+        class="demo-form"
+        label-position="left"
+      >
+        <el-form-item label="" class="in" prop="text">
+          <el-input
+            v-model="form_find.text"
+            style="width: 200px"
+            placeholder="搜索"
+          ></el-input>
+          <el-button @click="find" type="primary" >查询</el-button>
+          <el-button @click="find_exit" type="warning">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <!--展示主表格-->
     <el-table
       :data="tableData"
@@ -253,7 +273,10 @@ export default {
         docage: "",
         doclevel: "",
       },
-
+      //搜索框数据
+      form_find: {
+        text: "",
+      },
 
       formLabelWidth: "80px",
       timer: null,
@@ -363,7 +386,29 @@ export default {
         this.cancelForm2();
       });
     },
-    
+    //搜索医生信息方法
+    find() {
+
+      this.$refs.formFind.validate(async (valid) => {
+        //验证表单输入是否合法
+        if (!valid) return this.$message.error("搜索不能为空！");
+        //     //通过Axios发送post请求，并将返回结果从promise使用 async await 过滤
+        const { data: res } = await this.$http.get(
+          "/findDoc/" + this.form_find.text
+        );
+        console.log(res);
+        this.tableData = res;
+        //      if (!res) return this.$message.error('修改失败！');
+        // this.$message.success('修改成功>-<');
+        // this.getUsersList();
+        // this.cancelForm2();
+      });
+    },
+    //退出搜索，返回首页
+    find_exit() {
+      this.onePage();
+      this.$refs.formFind.resetFields();
+    },
 
     //修改弹窗打开关闭方法
     handleClose2() {
@@ -407,11 +452,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 搜索框
+.find {
+  width: 500px;
+  margin-top: 22px;
+
+}
 //主表格
 .page-index {
   position: absolute;
-  top: 120px;
-  left: 320px;
+  top: 50px;
+  left: 300px;
   width: 1000px;
 }
 
@@ -455,7 +506,8 @@ export default {
 
 .button_add {
   position: absolute;
-  right: 5%;
+  left: 36%;
+  top: 22px;
 }
 
 .button_tj {
