@@ -36,9 +36,10 @@
           </el-input>
         </el-form-item>
         <!-- 按钮 -->
-        <el-form-item label-width="0px" class="btns">
+        <el-form-item label-width="50px" class="btns">
           <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="reg">注册</el-button>
+          <el-button type="text" @click="reg">注册</el-button>
+          <el-button type="text" @click="forget">忘记密码</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -111,6 +112,10 @@ export default {
     reg() {
       this.$router.push("/res");
     },
+    
+    forget() {
+      this.$router.push("/forget");
+    },
   },
 };
 </script>
@@ -167,11 +172,7 @@ export default {
   right: 15%;
   top: 30%;
 
-  .btns {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-  }
+ 
 }
 
 .logo_buttom {

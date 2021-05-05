@@ -7,6 +7,7 @@ import Page404 from "../components/404.vue"
 import Newhome from "../components/Newhome.vue"
 import Doctor from "../components/Doctor.vue"
 import Inpa from "../components/inpatientWard.vue"
+import Forget from "../components/Forget.vue"
 
 
 Vue.use(VueRouter);
@@ -15,6 +16,7 @@ const routes = [
   {path:"/",redirect:'/login'},// 重定向地址
   {path: '/login', component:Login},
   {path: '/res', component: Res},
+  {path: '/forget', component: Forget},
   //访问 Newhome 重定向到 index  
   {path: '/new', component: Newhome, 
   redirect: '/index',
@@ -38,6 +40,7 @@ router.beforeEach((to,from,next) => {
   //如果用户访问登录页，直接放行
   if(to.path == "/login") return next();
   if (to.path == "/res") return next();
+  if (to.path == "/forget") return next();
   //从sessionStorage 中获取 token 值
   const tokenStr = window.sessionStorage.getItem("token")
   //没有 token 强制跳转到登录页面
